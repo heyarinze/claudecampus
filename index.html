@@ -917,6 +917,18 @@
       font-size: 1rem;
       color: var(--dark);
     }
+    /* Wrap the emoji + label as one flex item so the + indicator stays
+       pinned to the right edge of the summary. */
+    .acc-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.65em;
+    }
+    .acc-emoji {
+      font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif;
+      font-size: 1.1em;
+      line-height: 1;
+    }
     details.acc summary::-webkit-details-marker { display: none; }
     details.acc summary::after {
       content: "+";
@@ -1541,27 +1553,27 @@
             <div class="col-head">Resources</div>
 
             <details class="acc">
-              <summary>Conversation Guides</summary>
+              <summary><span class="acc-label"><span class="acc-emoji" aria-hidden="true">📖</span>Conversation Guides</span></summary>
               <div class="acc-body">Instructionals with prompts, facilitation tips, and ideas on using Claude to synthesize salon insights.</div>
             </details>
 
             <details class="acc">
-              <summary>Employee Time</summary>
+              <summary><span class="acc-label"><span class="acc-emoji" aria-hidden="true">🕰️</span>Employee Time</span></summary>
               <div class="acc-body">~1 hour per month aggregated from education, beneficial deployments, research, and policy teams for Campus Fellow Seminars, where FTEs share “big questions” and selected Fellows share campus insights.</div>
             </details>
 
             <details class="acc">
-              <summary>Fellow Compensation</summary>
+              <summary><span class="acc-label"><span class="acc-emoji" aria-hidden="true">💸</span>Fellow Compensation</span></summary>
               <div class="acc-body">Equal to Campus Ambassador compensation, reinforcing equal standing as co-leaders of the Claude community on campus.</div>
             </details>
 
             <details class="acc">
-              <summary>Salon Reimbursement</summary>
+              <summary><span class="acc-label"><span class="acc-emoji" aria-hidden="true">🐷</span>Salon Reimbursement</span></summary>
               <div class="acc-body">Reimbursement for salon-related expenses up to $500 per term, mirroring the Builder Club budget.</div>
             </details>
 
             <details class="acc">
-              <summary>Content Distribution Channels</summary>
+              <summary><span class="acc-label"><span class="acc-emoji" aria-hidden="true">📣</span>Content Distribution Channels</span></summary>
               <div class="acc-body">
                 <p>An owned channel (e.g. YouTube or Substack) for showcasing high-quality artifacts and insights from student salons.</p>
                 <p><em>Note: any artifacts amplified on Anthropic channels will go through a light editorial and safety review aligned with Anthropic content standards.</em></p>
@@ -1569,14 +1581,14 @@
             </details>
 
             <details class="acc">
-              <summary>Recruitment Pipelines</summary>
+              <summary><span class="acc-label"><span class="acc-emoji" aria-hidden="true">💼</span>Recruitment Pipelines</span></summary>
               <div class="acc-body">A signal into research-adjacent roles that value humanities and social-science expertise, Claude for Education, Beneficial Deployments, Policy/Society teams, and for hybrid profiles, research engineer/scientist tracks.</div>
             </details>
           </div>
 
           <!-- Dependencies column -->
           <div>
-            <div class="col-head">Dependencies &amp; Mitigations</div>
+            <div class="col-head">Risks &amp; Mitigations</div>
 
             <details class="acc">
               <summary>Reputation Risk</summary>

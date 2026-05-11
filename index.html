@@ -613,6 +613,9 @@
       grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
       gap: var(--space-4);
       margin-bottom: var(--space-6);
+      /* Each card sizes to its own content — expanding one card's rationale
+         no longer stretches every other card in the same row. */
+      align-items: start;
     }
     .struct-card {
       background: var(--white);

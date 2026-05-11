@@ -251,7 +251,7 @@
       border-bottom: 1px solid var(--light-gray);
     }
     .hero-inner {
-      max-width: 880px;
+      max-width: var(--max-content);
       margin: 0 auto;
       text-align: center;
     }
@@ -329,16 +329,23 @@
     }
 
     /* Hero card: elevated dark surface housing the quote, author's voice,
-       and the dual CTAs. Mirrors the Claude.com "announcement card" pattern. */
+       and the dual CTAs. A wide rectangular container that fills nearly
+       the full content width. Inner blocks have their own max-width so
+       line length stays readable on big screens. */
     .hero-card {
-      max-width: 720px;
+      max-width: 100%;
       margin: 0 auto;
       background: var(--white);
       border: 1px solid var(--light-gray);
       border-radius: var(--radius-lg);
-      padding: clamp(1.5rem, 3vw, 2.5rem);
+      padding: clamp(1.75rem, 4vw, 3.25rem) clamp(1.75rem, 5vw, 4.5rem);
       text-align: left;
       box-shadow: 0 1px 0 rgba(255,255,255,0.02) inset, 0 24px 60px rgba(0,0,0,0.35);
+    }
+    .hero-card .hero-quote,
+    .hero-card .hero-body,
+    .hero-card .cta-dual {
+      max-width: 880px;
     }
 
     /* Quote sits at the top of the hero card, smaller than the author's

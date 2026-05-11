@@ -435,14 +435,19 @@
       font-size: 0.82rem;
       opacity: 0.75;
     }
+    /* Cursive "or" between the two CTAs: thick script stack with a
+       deliberate slant. Falls back gracefully across platforms. */
     .cta-choice-divider {
       align-self: center;
-      font-family: var(--font-sans);
-      font-size: 0.8rem;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: var(--dark);
-      opacity: 0.45;
+      font-family: 'Snell Roundhand', 'Brush Script MT', 'Apple Chancery', 'Lucida Handwriting', 'Segoe Script', cursive;
+      font-style: italic;
+      font-weight: 900;
+      font-size: 1.9rem;
+      letter-spacing: 0;
+      text-transform: none;
+      color: var(--cloudy);
+      opacity: 0.75;
+      line-height: 1;
     }
 
     /* Primary: filled Crail */

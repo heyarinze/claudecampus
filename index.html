@@ -1050,6 +1050,15 @@
       opacity: 0.65;
       margin-top: 4px;
     }
+    /* Verbatim rationale from the source plan, shown under each metric. */
+    .metric-description {
+      font-family: var(--font-serif);
+      font-size: 0.97rem;
+      line-height: 1.55;
+      color: var(--dark);
+      opacity: 0.78;
+      margin: 6px 0 0;
+    }
     .info-tip {
       position: relative;
       display: inline-flex;
@@ -1653,11 +1662,9 @@
                 <div class="metric-content">
                   <div class="metric-title">
                     Salons organized per campus
-                    <span class="info-tip" tabindex="0" aria-label="Rationale">
-                      i<span class="tip-bubble">A steady cadence of salons ensures Claude and Anthropic maintain an active, visible presence on each campus.</span>
-                    </span>
                     <span class="value-tag anthropic">Anthropic value</span>
                   </div>
+                  <p class="metric-description">Ensuring an active presence of Claude / Anthropic on campus.</p>
                 </div>
               </li>
               <li class="metric-item" data-emphasis="student">
@@ -1665,11 +1672,9 @@
                 <div class="metric-content">
                   <div class="metric-title">
                     Interdisciplinary diversity per salon
-                    <span class="info-tip" tabindex="0" aria-label="Rationale">
-                      i<span class="tip-bubble">This signal measures how far Claude is reaching into non-technical disciplines beyond the usual builder audience.</span>
-                    </span>
                     <span class="value-tag student">Student value</span>
                   </div>
+                  <p class="metric-description">Ensuring Claude's penetration across multiple non-technical disciplines.</p>
                 </div>
               </li>
               <li class="metric-item" data-emphasis="anthropic">
@@ -1677,11 +1682,9 @@
                 <div class="metric-content">
                   <div class="metric-title">
                     Claude artifacts created per salon
-                    <span class="info-tip" tabindex="0" aria-label="Rationale">
-                      i<span class="tip-bubble">Required artifacts confirm that students are actively using Claude to synthesize discussions and reflect on what came up.</span>
-                    </span>
                     <span class="value-tag anthropic">Anthropic value</span>
                   </div>
+                  <p class="metric-description">Ensuring students are actively using Claude products.</p>
                 </div>
               </li>
               <li class="metric-item" data-emphasis="student">
@@ -1689,11 +1692,9 @@
                 <div class="metric-content">
                   <div class="metric-title">
                     Reach of artifacts &amp; salon content
-                    <span class="info-tip" tabindex="0" aria-label="Rationale">
-                      i<span class="tip-bubble">Tracked through podcast plays, essay reads, and zine downloads, this expands how society thinks about use cases for Claude artifacts and creative tools like Claude Design.</span>
-                    </span>
                     <span class="value-tag student">Student value</span>
                   </div>
+                  <p class="metric-description">Expand how society thinks about use cases for Claude artifacts and creative tools like Claude Design.</p>
                 </div>
               </li>
               <li class="metric-item" data-emphasis="anthropic">
@@ -1701,11 +1702,9 @@
                 <div class="metric-content">
                   <div class="metric-title">
                     Product / program / policy decisions influenced by student insights
-                    <span class="info-tip" tabindex="0" aria-label="Rationale">
-                      i<span class="tip-bubble">When salon insights show up in real decisions, students gain measurable agency in how Anthropic builds and ships.</span>
-                    </span>
                     <span class="value-tag anthropic">Anthropic value</span>
                   </div>
+                  <p class="metric-description">Gives students real, measurable agency at Anthropic.</p>
                   <div class="metric-example">For example, Anthropic employees may quote student insights in internal and external presentations, and Claude for Education resources may explicitly build on salon artifacts.</div>
                 </div>
               </li>
@@ -1715,16 +1714,15 @@
           <aside class="aspirational">
             <h3 class="metrics-tier-heading" style="color: var(--crail);">Aspirational Goals <span class="tier-bar" style="background: rgba(193,95,60,0.25);"></span></h3>
             <ul class="metric-list" id="aspirationalMetrics">
-              <li class="metric-item" data-emphasis="anthropic" style="border-top:none;">
+              <li class="metric-item" data-emphasis="both" style="border-top:none;">
                 <span class="metric-num">06</span>
                 <div class="metric-content">
                   <div class="metric-title">
                     FTE hires from the Fellowship
-                    <span class="info-tip" tabindex="0" aria-label="Rationale">
-                      i<span class="tip-bubble">Every Fellow who later joins as an FTE signals the high quality bar of the program and the long-term talent value it produces.</span>
-                    </span>
                     <span class="value-tag anthropic">Anthropic value</span>
+                    <span class="value-tag student">Student value</span>
                   </div>
+                  <p class="metric-description">Signals the high quality bar of the Fellowship program.</p>
                 </div>
               </li>
             </ul>
@@ -1888,7 +1886,9 @@
 
         metricItems.forEach(item => {
           const itemEmphasis = item.dataset.emphasis;
-          if (mode === 'both' || mode === itemEmphasis) {
+          // Items tagged as "both" provide both kinds of value, so they
+          // stay un-dimmed regardless of which filter is active.
+          if (mode === 'both' || itemEmphasis === 'both' || mode === itemEmphasis) {
             item.classList.remove('dimmed');
           } else {
             item.classList.add('dimmed');

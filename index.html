@@ -871,6 +871,148 @@
     .label-pill.others { background: rgba(176,174,165,0.2); color: var(--dark); }
     .label-pill.fellows { background: rgba(193,95,60,0.12); color: var(--crail); }
 
+    /* ---- Program focus spectrum + comparison table ----
+       Used in the Program Differentiation tab to show where each top AI
+       campus program sits on a single "growth -> discourse" axis, then
+       give the per-attribute breakdown in a scannable table. */
+    .program-spectrum {
+      margin: var(--space-6) 0 var(--space-5);
+    }
+    .spectrum-labels {
+      display: flex;
+      justify-content: space-between;
+      font-family: var(--font-sans);
+      font-size: 0.7rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--cloudy);
+      font-weight: 600;
+    }
+    .spectrum-track {
+      position: relative;
+      height: 150px;
+      margin-top: var(--space-3);
+    }
+    .spectrum-axis {
+      position: absolute;
+      top: 75px;
+      left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(to right, rgba(176,174,165,0.4), rgba(193,95,60,0.65));
+      border-radius: 999px;
+    }
+    .marker {
+      position: absolute;
+      left: var(--pos);
+      top: 75px;
+      transform: translate(-50%, -50%);
+    }
+    .marker .dot {
+      width: 11px;
+      height: 11px;
+      border-radius: 50%;
+      background: var(--cloudy);
+      border: 2px solid var(--light);
+      display: block;
+      position: relative;
+      z-index: 2;
+      box-shadow: 0 0 0 1px rgba(176,174,165,0.5);
+    }
+    .marker .label {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      white-space: nowrap;
+      font-family: var(--font-sans);
+      font-size: 0.7rem;
+      color: var(--cloudy);
+      letter-spacing: 0.02em;
+    }
+    .marker .label.below { top: 14px; }
+    .marker .label.above { bottom: 14px; }
+    .marker.is-claude .dot {
+      width: 16px;
+      height: 16px;
+      background: var(--crail);
+      box-shadow: 0 0 0 3px rgba(193,95,60,0.22);
+    }
+    .marker.is-claude .label {
+      color: var(--crail);
+      font-weight: 700;
+      font-size: 0.76rem;
+    }
+
+    /* Comparison table: rows = programs, columns = key attributes.
+       Wrapper scrolls horizontally on narrow screens. */
+    .program-compare-wrap {
+      margin-top: var(--space-7);
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      border: 1px solid var(--light-gray);
+      border-radius: var(--radius-md);
+    }
+    .program-compare {
+      width: 100%;
+      min-width: 760px;
+      border-collapse: collapse;
+      font-size: 0.92rem;
+    }
+    .program-compare th,
+    .program-compare td {
+      text-align: left;
+      padding: var(--space-3) var(--space-4);
+      border-bottom: 1px solid var(--light-gray);
+      vertical-align: top;
+    }
+    .program-compare tbody tr:last-child th,
+    .program-compare tbody tr:last-child td { border-bottom: none; }
+    .program-compare thead th {
+      font-family: var(--font-sans);
+      font-size: 0.7rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--cloudy);
+      font-weight: 600;
+      background: rgba(255,255,255,0.02);
+    }
+    .program-compare tbody th {
+      font-family: var(--font-sans);
+      font-weight: 600;
+      color: var(--dark);
+      font-size: 0.92rem;
+      width: 200px;
+    }
+    .program-compare tbody td {
+      color: var(--dark);
+      opacity: 0.88;
+      font-family: var(--font-serif);
+      line-height: 1.5;
+    }
+    .program-compare .cell-yes {
+      color: var(--accent-green);
+      font-weight: 600;
+    }
+    .program-compare .cell-no {
+      color: var(--cloudy);
+      opacity: 0.7;
+    }
+    .program-compare .cell-partial {
+      color: var(--accent-orange);
+      font-weight: 500;
+    }
+    .program-row.is-claude {
+      background: rgba(193,95,60,0.07);
+    }
+    .program-row.is-claude th { color: var(--crail); }
+    @media (max-width: 720px) {
+      .program-compare { font-size: 0.85rem; }
+      .program-compare th,
+      .program-compare td { padding: var(--space-3); }
+      .spectrum-track { height: 180px; }
+      .marker .label { font-size: 0.62rem; }
+      .marker.is-claude .label { font-size: 0.68rem; }
+    }
+
     .highlight {
       background: linear-gradient(180deg, transparent 60%, rgba(193,95,60,0.22) 60%);
       padding: 0 2px;
@@ -1409,15 +1551,104 @@
           <div class="card" style="padding: var(--space-6);">
             <h3>How Campus Fellows is different</h3>
             <p>Most AI campus programs optimize for usage, growth, and product demos. Claude Campus Fellows focuses on critical thinking, salons, and ongoing student-led artifacts rather than one-off materials.</p>
-            <div class="compare-grid">
-              <div class="compare-card card" style="background: var(--pampas);">
-                <h4><span class="label-pill others">Others</span></h4>
-                <p style="margin:0;">Perplexity’s Campus Partner and Lovable’s Campus Leaders programs are usage- and growth-centric. OpenAI’s “100 Chats for College Students” produced a single, centrally authored book, and its ChatGPT Lab initiatives are centrally organized rather than student-led.</p>
+
+            <!-- Single-axis spectrum: where each top AI campus program sits
+                 between growth-led adoption and critical, humanities-led
+                 discourse. Positions are illustrative, derived from each
+                 program's stated focus. -->
+            <div class="program-spectrum" role="img" aria-label="Where each AI campus program sits on the focus spectrum from growth and adoption to critical discourse and curation">
+              <div class="spectrum-labels">
+                <span>Growth &amp; adoption</span>
+                <span>Critical discourse &amp; curation</span>
               </div>
-              <div class="compare-card card" style="background: var(--white); border-color: var(--crail);">
-                <h4><span class="label-pill fellows">Claude Campus Fellows</span></h4>
-                <p style="margin:0;">A stream of student-led artifacts from ongoing salons across global campuses, designed for depth, plurality, and societal reflection over short-term growth metrics.</p>
+              <div class="spectrum-track">
+                <div class="spectrum-axis" aria-hidden="true"></div>
+
+                <div class="marker" style="--pos: 6%;">
+                  <span class="dot"></span>
+                  <span class="label below">Perplexity</span>
+                </div>
+                <div class="marker" style="--pos: 19%;">
+                  <span class="dot"></span>
+                  <span class="label above">Lovable</span>
+                </div>
+                <div class="marker" style="--pos: 32%;">
+                  <span class="dot"></span>
+                  <span class="label below">Google Gemini</span>
+                </div>
+                <div class="marker" style="--pos: 47%;">
+                  <span class="dot"></span>
+                  <span class="label above">Runway</span>
+                </div>
+                <div class="marker" style="--pos: 64%;">
+                  <span class="dot"></span>
+                  <span class="label below">OpenAI 100 Chats</span>
+                </div>
+                <div class="marker is-claude" style="--pos: 93%;">
+                  <span class="dot"></span>
+                  <span class="label above">Claude Campus Fellows</span>
+                </div>
               </div>
+            </div>
+
+            <!-- Per-attribute breakdown. Source: the comparison CSV in the
+                 project root. Wrapper scrolls horizontally on mobile. -->
+            <div class="program-compare-wrap">
+              <table class="program-compare">
+                <thead>
+                  <tr>
+                    <th scope="col">Program</th>
+                    <th scope="col">Primary focus</th>
+                    <th scope="col">Humanities-anchored</th>
+                    <th scope="col">Grad-led</th>
+                    <th scope="col">Distinctive edge</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="program-row is-claude">
+                    <th scope="row">Claude Campus Fellows</th>
+                    <td>Dual track: frontier-AI adoption (Ambassadors) + critical, cross-disciplinary thinking about AI and society (Fellows).</td>
+                    <td><span class="cell-yes">Yes</span></td>
+                    <td><span class="cell-yes">Yes</span></td>
+                    <td>The only program that pairs a technical builder track with a humanities-led thinker track.</td>
+                  </tr>
+                  <tr class="program-row">
+                    <th scope="row">Perplexity Campus Strategist</th>
+                    <td>Product-led growth &amp; marketing; campaigns, signups, affiliate growth.</td>
+                    <td><span class="cell-no">No</span></td>
+                    <td><span class="cell-no">No</span></td>
+                    <td>Performance / growth engine with measurable acquisition.</td>
+                  </tr>
+                  <tr class="program-row">
+                    <th scope="row">OpenAI 100 Chats &amp; ChatGPT Lab</th>
+                    <td>AI literacy and qualitative student insight through a centralized 100-question conversation guide.</td>
+                    <td><span class="cell-partial">Partial</span></td>
+                    <td><span class="cell-no">No</span></td>
+                    <td>Strong on conversation, but artifacts and structure are centrally authored.</td>
+                  </tr>
+                  <tr class="program-row">
+                    <th scope="row">Google Gemini Student Ambassadors</th>
+                    <td>Gemini adoption and AI literacy in Indian universities; prompts, workshops, monthly reports.</td>
+                    <td><span class="cell-no">No</span></td>
+                    <td><span class="cell-no">No</span></td>
+                    <td>Strong brand, training and certification; optimized for scale and usage.</td>
+                  </tr>
+                  <tr class="program-row">
+                    <th scope="row">Lovable Campus Leaders</th>
+                    <td>No-code AI app / site creation; meetups, hackathons, community events.</td>
+                    <td><span class="cell-no">No</span></td>
+                    <td><span class="cell-no">No</span></td>
+                    <td>No-code creator orientation; no thinker track.</td>
+                  </tr>
+                  <tr class="program-row">
+                    <th scope="row">Runway Student Ambassadors</th>
+                    <td>Generative video &amp; creative AI in arts, film, and media schools.</td>
+                    <td><span class="cell-partial">Creative</span></td>
+                    <td><span class="cell-no">No</span></td>
+                    <td>Compelling for creative production; not channeled into policy or education work.</td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
           </div>
         </div>

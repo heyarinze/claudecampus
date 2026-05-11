@@ -5,10 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="Claude Campus Fellows, a program design by Arinze Obiezue for non-technical campus communities to steer conversations on AI and society." />
   <title>Claude Campus Fellows · by Arinze Obiezue</title>
-  <!-- Bodoni Moda gives a high-contrast, "Seasons"-style display serif for the hero title. -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@0,500;0,600;0,700;0,800&display=swap" rel="stylesheet">
   <style>
     /* =========================================================
        DESIGN TOKENS
@@ -40,11 +36,9 @@
          Sans stack leads with SF Pro (resolved natively via -apple-system on
          macOS / iOS and named explicitly for everything else) so section
          headers, eyebrows, nav, and buttons share a clean editorial sans.
-         Display stack uses Bodoni Moda (loaded above) with Didot/Bodoni as
-         macOS fallbacks for a Seasons-style high-contrast serif. */
+         The hero title now uses the Georgia serif stack via --font-serif. */
       --font-sans: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'SF Pro', system-ui, 'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif;
       --font-serif: 'Georgia', 'Times New Roman', serif;
-      --font-display: 'Bodoni Moda', 'Didot', 'Bodoni 72', 'Bodoni MT', Georgia, serif;
 
       /* Spacing scale */
       --space-1: 0.25rem;
@@ -274,13 +268,13 @@
       align-items: center;
       gap: var(--space-5);
     }
-    /* H1 in the hero uses the Seasons-style display serif. */
+    /* H1 in the hero uses the Georgia serif stack. */
     .hero-title h1 {
-      font-family: var(--font-display);
+      font-family: var(--font-serif);
       font-weight: 700;
       letter-spacing: -0.01em;
       font-size: clamp(2.6rem, 5.6vw, 4.4rem);
-      line-height: 1.02;
+      line-height: 1.05;
       margin: 0;
       text-align: center;
       color: var(--dark);
@@ -2028,7 +2022,7 @@
       <div class="container">
         <div class="section-head">
           <div class="eyebrow">07 · Experience</div>
-          <h2>Why I Care About Thinking Salons</h2>
+          <h2>Why I’m Built for This</h2>
           <p class="lead">A decade of building small, high-trust thinking communities across very different contexts.</p>
         </div>
 

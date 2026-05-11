@@ -684,8 +684,10 @@
       padding: 0;
       margin: 0;
     }
+    .rationale p { margin: 0 0 var(--space-3); }
+    .rationale p:last-child { margin-bottom: 0; }
     .struct-card.open .rationale {
-      max-height: 320px;
+      max-height: 480px;
       padding-top: var(--space-3);
       margin-top: var(--space-2);
     }
@@ -1333,11 +1335,13 @@
           <article class="struct-card">
             <div class="struct-num">06</div>
             <h3 class="struct-title">Pilot: 5–10 priority schools</h3>
-            <p class="struct-sub">The pilot will focus on schools with an existing Claude for Education presence or deep involvement in AI ethics, such as Oxford’s Schwarzman Center for the Humanities and its Institute for AI Ethics.</p>
             <button class="rationale-toggle" aria-expanded="false">
               <span class="ico">i</span> View rationale
             </button>
-            <div class="rationale">Starting small gives the program team a learning window to refine the model before scaling to more campuses.</div>
+            <div class="rationale">
+              <p>The pilot will focus on schools with an existing Claude for Education presence or deep involvement in AI ethics, such as Oxford’s Schwarzman Center for the Humanities and its Institute for AI Ethics.</p>
+              <p>Starting small gives the program team a learning window to refine the model before scaling to more campuses.</p>
+            </div>
           </article>
 
           <article class="struct-card">

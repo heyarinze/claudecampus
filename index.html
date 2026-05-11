@@ -1157,6 +1157,18 @@
       color: var(--crail);
       margin-bottom: var(--space-1);
     }
+    /* Country flag preceding the timeline-meta label. Slightly larger
+       than the surrounding text and nudged vertically so it aligns with
+       the uppercase letters; emoji font ensures consistent rendering. */
+    .timeline-meta .flag {
+      display: inline-block;
+      font-size: 1.05rem;
+      line-height: 1;
+      vertical-align: -0.18em;
+      margin-right: 0.35em;
+      font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif;
+      letter-spacing: 0;
+    }
     .timeline-title {
       font-family: var(--font-sans);
       font-weight: 600;
@@ -1722,25 +1734,25 @@
 
         <div class="timeline">
           <div class="timeline-item">
-            <div class="timeline-meta">Mauritius · Weekly</div>
+            <div class="timeline-meta"><span class="flag" aria-hidden="true">🇲🇺</span> Mauritius · Weekly</div>
             <div class="timeline-title">Think &amp; Chill</div>
             <p>As an undergrad in Mauritius, I founded and ran this weekly thinking salon where friends and I met every Sunday at 8pm to discuss pre-readings across a range of topics.</p>
           </div>
 
           <div class="timeline-item">
-            <div class="timeline-meta">Nairobi · Biweekly</div>
+            <div class="timeline-meta"><span class="flag" aria-hidden="true">🇰🇪</span> Nairobi · Biweekly</div>
             <div class="timeline-title">Sunday High Table (SHiT)</div>
             <p>After moving to Nairobi to launch my Gen Z culture magazine, I co-founded this biweekly intellectual community where my creative and non-creative friends gathered to discuss philosophical topics.</p>
           </div>
 
           <div class="timeline-item">
-            <div class="timeline-meta">Stanford · Ongoing</div>
+            <div class="timeline-meta"><span class="flag" aria-hidden="true">🇺🇸</span> Stanford · Ongoing</div>
             <div class="timeline-title">Stanford Think Club</div>
             <p>At Stanford, I’m part of a think club with PhD students, including those from the medical school, where we read essays by writers from James Baldwin to Paul Graham to think more broadly about society and our place in it.</p>
           </div>
 
           <div class="timeline-item">
-            <div class="timeline-meta">London · Fellowship</div>
+            <div class="timeline-meta"><span class="flag" aria-hidden="true">🇬🇧</span> London · Fellowship</div>
             <div class="timeline-title">Thinking About Thinking Fellow</div>
             <p>I’m also a Thinking About Thinking Fellow, part of a global community of academics, scientists, researchers, designers, and philosophers working on open problems at the intersection of intelligence, society, and governance.</p>
           </div>

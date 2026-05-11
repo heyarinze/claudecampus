@@ -317,6 +317,23 @@
       .hero-title { animation: none; }
     }
 
+    /* Reveal-on-scroll: short fade-up as elements enter the viewport.
+       The .reveal class is added by JS; .in-view is added when the
+       IntersectionObserver detects the element entering view. */
+    .reveal {
+      opacity: 0;
+      transform: translateY(14px);
+      transition: opacity .45s ease-out, transform .45s ease-out;
+      will-change: opacity, transform;
+    }
+    .reveal.in-view {
+      opacity: 1;
+      transform: none;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .reveal { opacity: 1; transform: none; transition: none; }
+    }
+
     /* Hero card: elevated dark surface housing the quote, author's voice,
        and the dual CTAs. Mirrors the Claude.com "announcement card" pattern. */
     .hero-card {
@@ -1193,8 +1210,8 @@
       <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="navLinks">Menu</button>
       <div class="nav-links" id="navLinks">
         <a href="#about">About</a>
-        <a href="#structure">Structure</a>
         <a href="#positioning">Positioning</a>
+        <a href="#structure">Structure</a>
         <a href="#resources">Resources</a>
         <a href="#metrics">Metrics</a>
         <a href="#experience">Experience</a>
@@ -1311,12 +1328,90 @@
     </section>
 
     <!-- =========================================================
-         STRUCTURE
+         POSITIONING
          ========================================================= -->
-    <section class="section alt-bg" id="structure">
+    <section class="section alt-bg" id="positioning">
       <div class="container">
         <div class="section-head">
-          <div class="eyebrow">02 — Structure</div>
+          <div class="eyebrow">02 — Positioning</div>
+          <h2>Program Positioning</h2>
+          <p class="lead">How Claude Campus Fellows fits within Anthropic’s DNA — and how it diverges from every other AI campus program.</p>
+        </div>
+
+        <div class="tabs" role="tablist">
+          <button class="tab active" role="tab" aria-selected="true" data-target="pos-1">Alignment with Anthropic’s DNA</button>
+          <button class="tab" role="tab" aria-selected="false" data-target="pos-2">Program Differentiation</button>
+          <button class="tab" role="tab" aria-selected="false" data-target="pos-3">Core Insight</button>
+        </div>
+
+        <div class="tab-panel active" id="pos-1" role="tabpanel">
+          <div class="card" style="padding: var(--space-6);">
+            <h3>Built and run by both builders and thinkers</h3>
+            <p>Anthropic builds frontier AI systems while stewarding thoughtful conversations on AI and human flourishing — and the Campus program is designed to mirror that duality.</p>
+
+            <div class="alignment-block">
+              <h4 class="alignment-heading">Founder alignment</h4>
+              <p>The company is co-led by builder and thinker archetypes — Dario’s engineering background and Daniela’s humanities background — so its Campus Program needs to mirror that same duality on every campus.</p>
+            </div>
+
+            <div class="alignment-block">
+              <h4 class="alignment-heading">Org + mission alignment</h4>
+              <p>As one of the few AI labs structured as a Public Benefit Corporation rather than a typical C-Corp, Anthropic has a legal mandate to balance frontier development with thoughtful deployment. Campus Ambassadors carry the former; Campus Fellows carry the latter.</p>
+            </div>
+
+            <div class="compare-grid" style="margin-top: var(--space-6);">
+              <div class="compare-card card" style="background: var(--pampas);">
+                <h4><span class="role-tag builder">Builders</span> Campus Ambassadors</h4>
+                <p style="margin:0;">Campus Ambassadors carry the frontier-development side of Anthropic’s mandate, driving Claude’s adoption among student builders.</p>
+              </div>
+              <div class="compare-card card" style="background: var(--pampas);">
+                <h4><span class="role-tag thinker">Thinkers</span> Campus Fellows</h4>
+                <p style="margin:0;">Campus Fellows carry the thoughtful-deployment side, hosting discourse on AI and society and modeling responsible use.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="tab-panel" id="pos-2" role="tabpanel">
+          <div class="card" style="padding: var(--space-6);">
+            <h3>How Campus Fellows is different</h3>
+            <p>Most AI campus programs optimize for usage, growth, and product demos. Claude Campus Fellows focuses on critical thinking, salons, and ongoing student-led artifacts rather than one-off materials.</p>
+            <div class="compare-grid">
+              <div class="compare-card card" style="background: var(--pampas);">
+                <h4><span class="label-pill others">Others</span></h4>
+                <p style="margin:0;">Perplexity’s Campus Partner and Lovable’s Campus Leaders programs are usage- and growth-centric. OpenAI’s “100 Chats for College Students” produced a single, centrally authored book, and its ChatGPT Lab initiatives are centrally organized rather than student-led.</p>
+              </div>
+              <div class="compare-card card" style="background: var(--white); border-color: var(--crail);">
+                <h4><span class="label-pill fellows">Claude Campus Fellows</span></h4>
+                <p style="margin:0;">A stream of student-led artifacts from ongoing salons across global campuses — designed for depth, plurality, and societal reflection over short-term growth metrics.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="tab-panel" id="pos-3" role="tabpanel">
+          <div class="card" style="padding: var(--space-6);">
+            <h3>Core Insight</h3>
+            <ul style="padding-left: 1.2rem;">
+              <li>Most AI campus programs focus primarily on “builders,” leaving humanities and non-technical students on the periphery.</li>
+              <li>Historically, big questions about technology and society are answered when sciences and arts work together.</li>
+              <li>Focusing only on technical communities effectively cuts the total addressable student market in half.</li>
+            </ul>
+            <p style="font-size: 1.2rem; line-height:1.5; margin-top: var(--space-5);">
+              <span class="highlight">Claude Campus Fellows unlocks the other half.</span>
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         STRUCTURE
+         ========================================================= -->
+    <section class="section" id="structure">
+      <div class="container">
+        <div class="section-head">
+          <div class="eyebrow">03 — Structure</div>
           <h2>Program &amp; Thinker Salon Structure</h2>
           <p class="lead">Each design choice is deliberate. Tap any card to see the rationale behind it.</p>
         </div>
@@ -1398,10 +1493,10 @@
     <!-- =========================================================
          TARGET DISCIPLINES
          ========================================================= -->
-    <section class="section" id="disciplines">
+    <section class="section alt-bg" id="disciplines">
       <div class="container">
         <div class="section-head">
-          <div class="eyebrow">03 — Target Disciplines</div>
+          <div class="eyebrow">04 — Target Disciplines</div>
           <h2>Target Disciplines</h2>
           <p class="lead">Where Campus Fellows recruit and where conversations are seeded.</p>
         </div>
@@ -1416,83 +1511,6 @@
       </div>
     </section>
 
-    <!-- =========================================================
-         POSITIONING
-         ========================================================= -->
-    <section class="section alt-bg" id="positioning">
-      <div class="container">
-        <div class="section-head">
-          <div class="eyebrow">04 — Positioning</div>
-          <h2>Program Positioning</h2>
-          <p class="lead">How Claude Campus Fellows fits within Anthropic’s DNA — and how it diverges from every other AI campus program.</p>
-        </div>
-
-        <div class="tabs" role="tablist">
-          <button class="tab active" role="tab" aria-selected="true" data-target="pos-1">Alignment with Anthropic’s DNA</button>
-          <button class="tab" role="tab" aria-selected="false" data-target="pos-2">Program Differentiation</button>
-          <button class="tab" role="tab" aria-selected="false" data-target="pos-3">Core Insight</button>
-        </div>
-
-        <div class="tab-panel active" id="pos-1" role="tabpanel">
-          <div class="card" style="padding: var(--space-6);">
-            <h3>Built and run by both builders and thinkers</h3>
-            <p>Anthropic builds frontier AI systems while stewarding thoughtful conversations on AI and human flourishing — and the Campus program is designed to mirror that duality.</p>
-
-            <div class="alignment-block">
-              <h4 class="alignment-heading">Founder alignment</h4>
-              <p>The company is co-led by builder and thinker archetypes — Dario’s engineering background and Daniela’s humanities background — so its Campus Program needs to mirror that same duality on every campus.</p>
-            </div>
-
-            <div class="alignment-block">
-              <h4 class="alignment-heading">Org + mission alignment</h4>
-              <p>As one of the few AI labs structured as a Public Benefit Corporation rather than a typical C-Corp, Anthropic has a legal mandate to balance frontier development with thoughtful deployment. Campus Ambassadors carry the former; Campus Fellows carry the latter.</p>
-            </div>
-
-            <div class="compare-grid" style="margin-top: var(--space-6);">
-              <div class="compare-card card" style="background: var(--pampas);">
-                <h4><span class="role-tag builder">Builders</span> Campus Ambassadors</h4>
-                <p style="margin:0;">Campus Ambassadors carry the frontier-development side of Anthropic’s mandate, driving Claude’s adoption among student builders.</p>
-              </div>
-              <div class="compare-card card" style="background: var(--pampas);">
-                <h4><span class="role-tag thinker">Thinkers</span> Campus Fellows</h4>
-                <p style="margin:0;">Campus Fellows carry the thoughtful-deployment side, hosting discourse on AI and society and modeling responsible use.</p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="tab-panel" id="pos-2" role="tabpanel">
-          <div class="card" style="padding: var(--space-6);">
-            <h3>How Campus Fellows is different</h3>
-            <p>Most AI campus programs optimize for usage, growth, and product demos. Claude Campus Fellows focuses on critical thinking, salons, and ongoing student-led artifacts rather than one-off materials.</p>
-            <div class="compare-grid">
-              <div class="compare-card card" style="background: var(--pampas);">
-                <h4><span class="label-pill others">Others</span></h4>
-                <p style="margin:0;">Perplexity’s Campus Partner and Lovable’s Campus Leaders programs are usage- and growth-centric. OpenAI’s “100 Chats for College Students” produced a single, centrally authored book, and its ChatGPT Lab initiatives are centrally organized rather than student-led.</p>
-              </div>
-              <div class="compare-card card" style="background: var(--white); border-color: var(--crail);">
-                <h4><span class="label-pill fellows">Claude Campus Fellows</span></h4>
-                <p style="margin:0;">A stream of student-led artifacts from ongoing salons across global campuses — designed for depth, plurality, and societal reflection over short-term growth metrics.</p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="tab-panel" id="pos-3" role="tabpanel">
-          <div class="card" style="padding: var(--space-6);">
-            <h3>Core Insight</h3>
-            <ul style="padding-left: 1.2rem;">
-              <li>Most AI campus programs focus primarily on “builders,” leaving humanities and non-technical students on the periphery.</li>
-              <li>Historically, big questions about technology and society are answered when sciences and arts work together.</li>
-              <li>Focusing only on technical communities effectively cuts the total addressable student market in half.</li>
-            </ul>
-            <p style="font-size: 1.2rem; line-height:1.5; margin-top: var(--space-5);">
-              <span class="highlight">Claude Campus Fellows unlocks the other half.</span>
-            </p>
-          </div>
-        </div>
-      </div>
-    </section>
 
     <!-- =========================================================
          RESOURCES & DEPENDENCIES
@@ -1803,6 +1821,37 @@
         document.getElementById(target).classList.add('active');
       });
     });
+
+    // Reveal-on-scroll: quick fade-up as elements enter the viewport.
+    // IntersectionObserver works on all modern desktop and mobile browsers
+    // (iOS Safari 12.2+, Chrome / Firefox / Edge on Android). Each element
+    // is observed once; the observer disconnects from it after revealing.
+    const revealTargets = document.querySelectorAll(
+      '.section-head, .role-card, .struct-card, .compare-card, ' +
+      '.objectives, .thesis, .chip, .alignment-block, details.acc, ' +
+      '.metric-item, .timeline-item, .closing-line, .aspirational'
+    );
+    const prefersReducedMotion =
+      window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if ('IntersectionObserver' in window && !prefersReducedMotion) {
+      const revealObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('in-view');
+            revealObserver.unobserve(entry.target);
+          }
+        });
+      }, {
+        threshold: 0.05,
+        // Fire slightly before the element fully enters so it animates in
+        // as it crosses the bottom edge — feels snappier on mobile too.
+        rootMargin: '0px 0px -5% 0px'
+      });
+      revealTargets.forEach(el => {
+        el.classList.add('reveal');
+        revealObserver.observe(el);
+      });
+    }
 
     // Metrics: Student / Anthropic / Both emphasis toggle
     const toggleBtns = document.querySelectorAll('.toggle-btn');

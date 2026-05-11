@@ -83,6 +83,17 @@
        ========================================================= */
     *, *::before, *::after { box-sizing: border-box; }
     html { scroll-behavior: smooth; }
+
+    /* Custom cursor: a Claude-style spark in Crail.
+       Hotspot is set to (16, 2) — the very tip of the topmost ray — so the
+       active cursor point sits exactly where the user is "pointing".
+       Inputs override back to text caret for usability. */
+    html, body, * {
+      cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32' fill='none'><g stroke='%23C15F3C' stroke-width='1.7' stroke-linecap='round'><line x1='16' y1='2' x2='16' y2='12'/><line x1='16' y1='20' x2='16' y2='30'/><line x1='2' y1='16' x2='12' y2='16'/><line x1='20' y1='16' x2='30' y2='16'/><line x1='6.7' y1='6.7' x2='12.6' y2='12.6'/><line x1='19.4' y1='19.4' x2='25.3' y2='25.3'/><line x1='25.3' y1='6.7' x2='19.4' y2='12.6'/><line x1='6.7' y1='25.3' x2='12.6' y2='19.4'/></g></svg>") 16 2, auto;
+    }
+    input, textarea, [contenteditable] {
+      cursor: text;
+    }
     body {
       margin: 0;
       font-family: var(--font-serif);

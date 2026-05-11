@@ -645,6 +645,66 @@
     }
     .objectives li:first-of-type { border-top: none; }
 
+    /* Selection: companion box to .objectives, holds the Criteria and
+       Process sub-sections under the About section. */
+    .selection-process {
+      margin-top: var(--space-4);
+      background: var(--white);
+      border: 1px solid var(--light-gray);
+      border-radius: var(--radius-md);
+      padding: var(--space-5) var(--space-6);
+    }
+    .selection-process > h4 {
+      font-family: var(--font-sans);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      font-size: 0.78rem;
+      color: var(--dark);
+      opacity: 0.6;
+      margin: 0 0 var(--space-4);
+    }
+    .selection-block {
+      margin-top: var(--space-4);
+      padding-top: var(--space-4);
+      border-top: 1px solid var(--light-gray);
+    }
+    .selection-process .selection-block:first-of-type {
+      margin-top: 0;
+      padding-top: 0;
+      border-top: none;
+    }
+    .selection-heading {
+      font-family: var(--font-sans);
+      font-size: 0.74rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--crail);
+      font-weight: 600;
+      margin: 0 0 var(--space-3);
+    }
+    .selection-block ul,
+    .selection-block ol {
+      margin: 0;
+      padding-left: 1.3rem;
+      color: var(--dark);
+      opacity: 0.9;
+    }
+    .selection-block li {
+      margin-bottom: var(--space-2);
+      line-height: 1.55;
+    }
+    .selection-block li:last-child { margin-bottom: 0; }
+    .selection-block li em {
+      color: var(--accent-orange);
+      font-style: normal;
+      font-family: var(--font-sans);
+      font-size: 0.74rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-right: 4px;
+    }
+
     /* =========================================================
        STRUCTURE GRID, expandable rationale cards
        ========================================================= */
@@ -1539,6 +1599,30 @@
             <li>Increase Claude usage among students from the humanities, arts, and culture disciplines.</li>
             <li>Help Anthropic’s teams understand how students are using Claude for personal and professional use cases.</li>
           </ol>
+        </div>
+
+        <!-- Selection: who's eligible and how Fellows are chosen. -->
+        <div class="selection-process">
+          <h4>Selection</h4>
+
+          <div class="selection-block">
+            <h5 class="selection-heading">Criteria</h5>
+            <ul>
+              <li>Actively enrolled for at least one full academic year.</li>
+              <li>Humanities background (evidenced by major).</li>
+              <li>Writing ability (evidenced by writing samples).</li>
+              <li>Experience facilitating discussion groups (evidenced in resume and interviews).</li>
+              <li><em>Nice to have:</em> demonstrated interest in AI (evidenced by courses, writing, or portfolio).</li>
+            </ul>
+          </div>
+
+          <div class="selection-block">
+            <h5 class="selection-heading">Process</h5>
+            <ol class="selection-steps">
+              <li>General application form that includes some writing prompts.</li>
+              <li>Two-stage interview: first with THE.TEAM, then with the Student Outreach PM.</li>
+            </ol>
+          </div>
         </div>
       </div>
     </section>

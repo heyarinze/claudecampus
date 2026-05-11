@@ -1,0 +1,1776 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Claude Campus Fellows — a program design by Arinze Obiezue for non-technical campus communities to steer conversations on AI and society." />
+  <title>Claude Campus Fellows · by Arinze Obiezue</title>
+  <!-- Bodoni Moda gives a high-contrast, "Seasons"-style display serif for the hero title. -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@0,500;0,600;0,700;0,800&display=swap" rel="stylesheet">
+  <style>
+    /* =========================================================
+       DESIGN TOKENS
+       Edit these CSS variables to retune colors, spacing, and type.
+       Palette references the Anthropic / Claude brand guide.
+       ========================================================= */
+    :root {
+      /* Claude palette */
+      --crail: #C15F3C;          /* key accent: buttons, tags, highlights */
+      --cloudy: #B1ADA1;         /* secondary UI / subtle text */
+      --pampas: #F4F3EE;         /* primary light background */
+      --white: #FFFFFF;
+
+      /* Anthropic core */
+      --dark: #141413;           /* primary text / dark backgrounds */
+      --light: #FAF9F5;          /* alt page background */
+      --mid-gray: #B0AEA5;       /* secondary elements, borders */
+      --light-gray: #E8E6DC;     /* subtle panels, section bg */
+
+      /* Additional accents */
+      --accent-orange: #D97757;  /* complements crail for CTAs */
+      --accent-blue: #6A9BCC;
+      --accent-green: #788C5D;
+
+      /* Typography
+         Sans stack leads with Helvetica Neue so section headers, eyebrows,
+         nav, and buttons share a clean editorial sans.
+         Display stack uses Bodoni Moda (loaded above) with Didot/Bodoni as
+         macOS fallbacks for a Seasons-style high-contrast serif. */
+      --font-sans: 'Helvetica Neue', Helvetica, Arial, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      --font-serif: 'Georgia', 'Times New Roman', serif;
+      --font-display: 'Bodoni Moda', 'Didot', 'Bodoni 72', 'Bodoni MT', Georgia, serif;
+
+      /* Spacing scale */
+      --space-1: 0.25rem;
+      --space-2: 0.5rem;
+      --space-3: 0.75rem;
+      --space-4: 1rem;
+      --space-5: 1.5rem;
+      --space-6: 2rem;
+      --space-7: 3rem;
+      --space-8: 4rem;
+      --space-9: 6rem;
+
+      /* Radius and shadow */
+      --radius-sm: 6px;
+      --radius-md: 10px;
+      --radius-lg: 16px;
+      --shadow-soft: 0 1px 2px rgba(20,20,19,0.04), 0 4px 12px rgba(20,20,19,0.04);
+      --shadow-hover: 0 2px 4px rgba(20,20,19,0.06), 0 10px 28px rgba(20,20,19,0.08);
+
+      /* Layout */
+      --max-content: 1120px;
+      --nav-height: 64px;
+
+      /* Graph paper pattern: subtle "engineer's notebook" feel.
+         Two grids stacked — major lines every 70px, minor every 14px. */
+      --graph-paper:
+        linear-gradient(to right, rgba(20,20,19,0.07) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(20,20,19,0.07) 1px, transparent 1px),
+        linear-gradient(to right, rgba(20,20,19,0.035) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(20,20,19,0.035) 1px, transparent 1px);
+      --graph-size: 70px 70px, 70px 70px, 14px 14px, 14px 14px;
+    }
+
+    /* =========================================================
+       BASE
+       ========================================================= */
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: var(--font-serif);
+      font-size: 18px;
+      line-height: 1.65;
+      color: var(--dark);
+      background-color: var(--light);
+      background-image: var(--graph-paper);
+      background-size: var(--graph-size);
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+    h1, h2, h3, h4, .sans { font-family: var(--font-sans); letter-spacing: -0.01em; }
+    h1 { font-size: clamp(2.25rem, 4.6vw, 3.6rem); line-height: 1.08; font-weight: 600; margin: 0 0 var(--space-5); }
+    h2 { font-size: clamp(1.6rem, 2.6vw, 2.2rem); line-height: 1.15; font-weight: 600; margin: 0 0 var(--space-5); }
+    h3 { font-size: 1.25rem; font-weight: 600; margin: 0 0 var(--space-3); }
+    h4 { font-size: 1rem; font-weight: 600; margin: 0 0 var(--space-2); }
+    p { margin: 0 0 var(--space-4); }
+    a { color: var(--crail); text-decoration: none; border-bottom: 1px solid transparent; transition: border-color .2s ease; }
+    a:hover { border-bottom-color: var(--crail); }
+    ::selection { background: var(--crail); color: var(--white); }
+
+    /* =========================================================
+       NAVIGATION
+       Sticky top nav with anchor links to each section.
+       ========================================================= */
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(250, 249, 245, 0.85);
+      backdrop-filter: saturate(140%) blur(12px);
+      -webkit-backdrop-filter: saturate(140%) blur(12px);
+      border-bottom: 1px solid var(--light-gray);
+      height: var(--nav-height);
+      display: flex;
+      align-items: center;
+    }
+    .nav-inner {
+      max-width: var(--max-content);
+      margin: 0 auto;
+      padding: 0 var(--space-5);
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: var(--space-5);
+    }
+    .nav-brand {
+      font-family: var(--font-sans);
+      font-weight: 600;
+      font-size: 0.95rem;
+      color: var(--dark);
+      border-bottom: none;
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+    }
+    .nav-brand-mark {
+      width: 10px; height: 10px; border-radius: 50%;
+      background: var(--crail);
+      display: inline-block;
+    }
+    .nav-links {
+      display: flex;
+      gap: var(--space-5);
+      font-family: var(--font-sans);
+      font-size: 0.875rem;
+    }
+    .nav-links a {
+      color: var(--dark);
+      opacity: 0.7;
+      border-bottom: 1px solid transparent;
+      padding-bottom: 2px;
+    }
+    .nav-links a:hover { opacity: 1; border-bottom-color: var(--crail); }
+    .nav-toggle {
+      display: none;
+      background: none;
+      border: 1px solid var(--mid-gray);
+      border-radius: var(--radius-sm);
+      padding: 6px 10px;
+      font-family: var(--font-sans);
+      font-size: 0.85rem;
+      cursor: pointer;
+    }
+    @media (max-width: 820px) {
+      .nav-links {
+        position: absolute;
+        top: var(--nav-height);
+        left: 0; right: 0;
+        flex-direction: column;
+        background: var(--light);
+        border-bottom: 1px solid var(--light-gray);
+        padding: var(--space-4) var(--space-5);
+        gap: var(--space-3);
+        display: none;
+      }
+      .nav-links.open { display: flex; }
+      .nav-toggle { display: inline-flex; }
+    }
+
+    /* =========================================================
+       LAYOUT HELPERS
+       ========================================================= */
+    .section {
+      padding: var(--space-9) var(--space-5);
+      border-bottom: 1px solid var(--light-gray);
+    }
+    .section:last-of-type { border-bottom: none; }
+    .container {
+      max-width: var(--max-content);
+      margin: 0 auto;
+    }
+    .section-head {
+      margin-bottom: var(--space-7);
+      max-width: 760px;
+    }
+    .eyebrow {
+      font-family: var(--font-sans);
+      text-transform: uppercase;
+      font-size: 0.78rem;
+      letter-spacing: 0.14em;
+      color: var(--crail);
+      font-weight: 600;
+      margin-bottom: var(--space-3);
+    }
+    .lead {
+      font-size: 1.15rem;
+      color: var(--dark);
+      opacity: 0.85;
+    }
+    .alt-bg { background: var(--pampas); }
+    .grid-2 {
+      display: grid;
+      gap: var(--space-5);
+      grid-template-columns: repeat(2, 1fr);
+    }
+    @media (max-width: 820px) { .grid-2 { grid-template-columns: 1fr; } }
+
+    /* =========================================================
+       HERO
+       Big serif quote, title, personal paragraph, CTA row.
+       ========================================================= */
+    .hero {
+      padding: clamp(4rem, 9vw, 7rem) var(--space-5) clamp(4rem, 8vw, 6rem);
+      background-color: var(--light);
+      background-image:
+        radial-gradient(1100px 500px at 85% -10%, rgba(193,95,60,0.10), transparent 60%),
+        radial-gradient(900px 400px at -5% 110%, rgba(106,155,204,0.08), transparent 60%),
+        var(--graph-paper);
+      background-size: auto, auto, var(--graph-size);
+      border-bottom: 1px solid var(--light-gray);
+    }
+    .hero-inner {
+      max-width: 880px;
+      margin: 0 auto;
+    }
+    /* Title sits at the very top of the hero and gently levitates.
+       Subtle translateY + drop-shadow gives a sense of lift off the page.
+       Flex column lets the proposal pill sit on its own row above the h1. */
+    .hero-title {
+      margin-bottom: var(--space-8);
+      animation: levitate 6s ease-in-out infinite;
+      will-change: transform, filter;
+      filter: drop-shadow(0 6px 12px rgba(20,20,19,0.04));
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: var(--space-4);
+    }
+    /* H1 in the hero uses the Seasons-style display serif. */
+    .hero-title h1 {
+      font-family: var(--font-display);
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      font-size: clamp(2.6rem, 5.2vw, 4.2rem);
+      line-height: 1.02;
+      margin: 0;
+    }
+    /* Program Proposal pill — Crail-tinted with a small document icon. */
+    .proposal-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 6px 13px 6px 11px;
+      border-radius: 999px;
+      background: rgba(193,95,60,0.08);
+      border: 1px solid rgba(193,95,60,0.32);
+      color: var(--crail);
+      font-family: var(--font-sans);
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+    .proposal-pill svg { display: block; }
+
+    @keyframes levitate {
+      0%, 100% {
+        transform: translateY(0);
+        filter: drop-shadow(0 4px 10px rgba(20,20,19,0.04));
+      }
+      50% {
+        transform: translateY(-8px);
+        filter: drop-shadow(0 14px 22px rgba(20,20,19,0.08));
+      }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .hero-title { animation: none; }
+    }
+    /* Quote sits directly above the paragraph that references it,
+       but is intentionally smaller than the author's paragraph so the
+       author's voice carries the visual weight. */
+    .hero-quote {
+      font-family: var(--font-serif);
+      font-size: 0.95rem;
+      line-height: 1.55;
+      font-style: italic;
+      color: var(--dark);
+      opacity: 0.85;
+      border-left: 2px solid var(--crail);
+      padding-left: var(--space-4);
+      margin: 0 0 var(--space-5);
+      max-width: 600px;
+    }
+    .hero-quote-attr {
+      display: block;
+      margin-top: var(--space-2);
+      font-style: normal;
+      font-size: 0.78rem;
+      font-family: var(--font-sans);
+      color: var(--dark);
+      opacity: 0.6;
+      letter-spacing: 0.02em;
+    }
+    .hero-meta {
+      font-family: var(--font-sans);
+      font-size: 0.9rem;
+      color: var(--dark);
+      opacity: 0.55;
+      letter-spacing: 0.02em;
+      margin-bottom: var(--space-3);
+    }
+    .hero-body p {
+      max-width: 680px;
+    }
+    /* Signature under the personal paragraph — makes authorship explicit. */
+    .hero-signature {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-size: 1.05rem;
+      color: var(--dark);
+      opacity: 0.78;
+      margin-top: var(--space-3);
+      max-width: 680px;
+    }
+
+    /* Dual-choice CTA: two equal-weight options, one filled, one outlined,
+       with a small "or" separator that vanishes on mobile. */
+    .cta-dual {
+      margin-top: var(--space-7);
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: stretch;
+      gap: var(--space-3);
+      max-width: 640px;
+    }
+    .cta-choice {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      padding: var(--space-4) var(--space-5);
+      border-radius: var(--radius-md);
+      border: 1px solid;
+      text-decoration: none;
+      transition: transform .15s ease, background .2s ease, border-color .2s ease, color .2s ease, box-shadow .2s ease;
+      min-height: 72px;
+    }
+    .cta-choice:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-hover);
+      border-bottom-color: inherit; /* override base link rule */
+    }
+    .cta-choice-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .cta-choice-body {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .cta-choice-label {
+      font-family: var(--font-sans);
+      font-size: 1rem;
+      font-weight: 600;
+      letter-spacing: -0.005em;
+    }
+    .cta-choice-sub {
+      font-family: var(--font-sans);
+      font-size: 0.82rem;
+      opacity: 0.75;
+    }
+    .cta-choice-divider {
+      align-self: center;
+      font-family: var(--font-sans);
+      font-size: 0.8rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--dark);
+      opacity: 0.45;
+    }
+
+    /* Primary: filled Crail */
+    .cta-choice-primary {
+      background: var(--crail);
+      color: var(--white);
+      border-color: var(--crail);
+    }
+    .cta-choice-primary:hover {
+      background: var(--accent-orange);
+      border-color: var(--accent-orange);
+    }
+    .cta-choice-primary .cta-choice-icon {
+      background: rgba(255,255,255,0.18);
+      color: var(--white);
+    }
+
+    /* Secondary: outlined */
+    .cta-choice-secondary {
+      background: var(--white);
+      color: var(--dark);
+      border-color: var(--mid-gray);
+    }
+    .cta-choice-secondary:hover {
+      border-color: var(--crail);
+      color: var(--crail);
+    }
+    .cta-choice-secondary .cta-choice-icon {
+      background: var(--pampas);
+      color: var(--crail);
+    }
+
+    @media (max-width: 640px) {
+      .cta-dual {
+        grid-template-columns: 1fr;
+      }
+      .cta-choice-divider { display: none; }
+    }
+
+    /* Legacy .cta-row kept for compatibility but unused in the hero now. */
+    .cta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-3);
+      margin-top: var(--space-6);
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-2);
+      font-family: var(--font-sans);
+      font-size: 0.95rem;
+      font-weight: 500;
+      padding: 0.75rem 1.25rem;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      cursor: pointer;
+      transition: transform .15s ease, background .2s ease, border-color .2s ease, color .2s ease;
+      text-decoration: none;
+    }
+    .btn:hover { transform: translateY(-1px); border-bottom-color: transparent; }
+    .btn-primary {
+      background: var(--crail);
+      color: var(--white);
+    }
+    .btn-primary:hover { background: var(--accent-orange); }
+    .btn-secondary {
+      background: transparent;
+      color: var(--dark);
+      border-color: var(--mid-gray);
+    }
+    .btn-secondary:hover { border-color: var(--crail); color: var(--crail); }
+    .btn .arrow {
+      transition: transform .2s ease;
+    }
+    .btn:hover .arrow { transform: translateX(3px); }
+
+    /* =========================================================
+       CARDS
+       ========================================================= */
+    .card {
+      background: var(--white);
+      border: 1px solid var(--light-gray);
+      border-radius: var(--radius-md);
+      padding: var(--space-5);
+      box-shadow: var(--shadow-soft);
+      transition: border-color .2s ease, box-shadow .2s ease, transform .2s ease;
+    }
+    .card:hover {
+      border-color: var(--crail);
+      box-shadow: var(--shadow-hover);
+    }
+    .card-eyebrow {
+      font-family: var(--font-sans);
+      font-size: 0.75rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent-orange);
+      font-weight: 600;
+      margin-bottom: var(--space-2);
+    }
+
+    /* Claude@Campus umbrella container wrapping the two role cards.
+       Pampas-tinted background with a label pill anchored at top-center. */
+    .claude-at-campus {
+      position: relative;
+      background: var(--pampas);
+      border: 1px solid var(--light-gray);
+      border-radius: var(--radius-lg);
+      padding: calc(var(--space-7) + 4px) var(--space-5) var(--space-5);
+      margin-bottom: var(--space-6);
+    }
+    .claude-at-campus-label {
+      position: absolute;
+      top: -16px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--dark);
+      color: var(--light);
+      font-family: var(--font-sans);
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      padding: 8px 16px;
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      white-space: nowrap;
+    }
+    .claude-at-campus-label::before {
+      content: "";
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--crail);
+      flex-shrink: 0;
+    }
+
+    /* About: two side-by-side role cards */
+    .role-cards {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--space-5);
+    }
+    @media (max-width: 720px) { .role-cards { grid-template-columns: 1fr; } }
+    .role-card h3 {
+      display: flex; align-items: center; gap: var(--space-2);
+    }
+    .role-card ul {
+      margin: 0; padding: 0; list-style: none;
+    }
+    .role-card li {
+      padding: var(--space-2) 0;
+      border-top: 1px dashed var(--light-gray);
+    }
+    .role-card li:first-child { border-top: none; }
+    .role-tag {
+      display: inline-block;
+      font-family: var(--font-sans);
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 2px 10px;
+      border-radius: 999px;
+      background: var(--pampas);
+      border: 1px solid var(--light-gray);
+      color: var(--dark);
+    }
+    .role-tag.builder { color: var(--accent-blue); border-color: rgba(106,155,204,0.4); background: rgba(106,155,204,0.08); }
+    .role-tag.thinker { color: var(--crail); border-color: rgba(193,95,60,0.4); background: rgba(193,95,60,0.08); }
+
+    .objectives {
+      background: var(--white);
+      border: 1px solid var(--light-gray);
+      border-radius: var(--radius-md);
+      padding: var(--space-5) var(--space-6);
+    }
+    .objectives h4 {
+      font-family: var(--font-sans);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      font-size: 0.78rem;
+      color: var(--dark);
+      opacity: 0.6;
+    }
+    .objectives ol {
+      padding-left: 0;
+      list-style: none;
+      counter-reset: obj;
+      margin: 0;
+    }
+    .objectives li {
+      counter-increment: obj;
+      padding: var(--space-3) 0 var(--space-3) 2.4rem;
+      border-top: 1px solid var(--light-gray);
+      position: relative;
+    }
+    .objectives li::before {
+      content: counter(obj, decimal-leading-zero);
+      position: absolute;
+      left: 0; top: var(--space-3);
+      font-family: var(--font-sans);
+      color: var(--crail);
+      font-weight: 600;
+      letter-spacing: 0.04em;
+    }
+    .objectives li:first-of-type { border-top: none; }
+
+    /* =========================================================
+       STRUCTURE GRID — expandable rationale cards
+       ========================================================= */
+    .structure-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: var(--space-4);
+      margin-bottom: var(--space-6);
+    }
+    .struct-card {
+      background: var(--white);
+      border: 1px solid var(--light-gray);
+      border-radius: var(--radius-md);
+      padding: var(--space-5);
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-3);
+      transition: border-color .2s ease, box-shadow .2s ease;
+    }
+    .struct-card:hover { border-color: var(--crail); box-shadow: var(--shadow-hover); }
+    .struct-num {
+      font-family: var(--font-sans);
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      color: var(--crail);
+    }
+    .struct-title {
+      font-family: var(--font-sans);
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--dark);
+      line-height: 1.3;
+      margin: 0;
+    }
+    .struct-sub {
+      font-size: 0.92rem;
+      color: var(--dark);
+      opacity: 0.75;
+      margin: 0;
+    }
+    .rationale-toggle {
+      align-self: flex-start;
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--crail);
+      font-family: var(--font-sans);
+      font-size: 0.85rem;
+      font-weight: 500;
+      padding: 0;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: auto;
+    }
+    .rationale-toggle .ico {
+      width: 16px; height: 16px;
+      border-radius: 50%;
+      border: 1px solid var(--crail);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.7rem;
+      font-style: italic;
+      font-family: var(--font-serif);
+    }
+    .rationale {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height .35s ease, margin .35s ease;
+      font-size: 0.95rem;
+      color: var(--dark);
+      opacity: 0.85;
+      border-top: 1px solid var(--light-gray);
+      padding: 0;
+      margin: 0;
+    }
+    .struct-card.open .rationale {
+      max-height: 320px;
+      padding-top: var(--space-3);
+      margin-top: var(--space-2);
+    }
+
+    /* Pull-quote thesis card */
+    .thesis {
+      border: 2px solid var(--crail);
+      background: var(--white);
+      border-radius: var(--radius-lg);
+      padding: var(--space-6) var(--space-7);
+      text-align: center;
+      position: relative;
+      margin-top: var(--space-5);
+    }
+    .thesis::before {
+      content: "Structure thesis";
+      position: absolute;
+      top: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--light);
+      padding: 0 var(--space-3);
+      font-family: var(--font-sans);
+      text-transform: uppercase;
+      font-size: 0.72rem;
+      letter-spacing: 0.16em;
+      color: var(--crail);
+      font-weight: 600;
+    }
+    .thesis-quote {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-size: clamp(1.2rem, 2.2vw, 1.55rem);
+      line-height: 1.4;
+      margin: 0;
+    }
+
+    /* =========================================================
+       DISCIPLINES — pill chips
+       ========================================================= */
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-3);
+    }
+    .chip {
+      font-family: var(--font-sans);
+      font-size: 0.95rem;
+      padding: 0.55rem 1.1rem;
+      border-radius: 999px;
+      background: rgba(193,95,60,0.06);
+      border: 1px solid rgba(193,95,60,0.35);
+      color: var(--dark);
+      transition: background .2s ease, transform .15s ease, border-color .2s ease;
+    }
+    .chip:hover {
+      background: rgba(193,95,60,0.12);
+      border-color: var(--crail);
+      transform: translateY(-1px);
+    }
+
+    /* =========================================================
+       POSITIONING — tabs
+       ========================================================= */
+    .tabs {
+      display: flex;
+      gap: var(--space-2);
+      flex-wrap: wrap;
+      margin-bottom: var(--space-5);
+      border-bottom: 1px solid var(--light-gray);
+    }
+    .tab {
+      background: none;
+      border: none;
+      border-bottom: 2px solid transparent;
+      font-family: var(--font-sans);
+      font-size: 0.95rem;
+      font-weight: 500;
+      color: var(--dark);
+      opacity: 0.6;
+      padding: var(--space-3) var(--space-4);
+      cursor: pointer;
+      transition: opacity .2s ease, border-color .2s ease, color .2s ease;
+    }
+    .tab:hover { opacity: 1; }
+    .tab.active {
+      opacity: 1;
+      color: var(--crail);
+      border-bottom-color: var(--crail);
+    }
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; animation: fadeIn .25s ease; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(4px);} to { opacity: 1; transform: translateY(0);} }
+
+    /* Sub-sectioned alignment blocks inside the positioning tabs.
+       Each block has a small Crail label + body, separated by a hairline rule. */
+    .alignment-block {
+      margin-top: var(--space-5);
+      padding-top: var(--space-4);
+      border-top: 1px solid var(--light-gray);
+    }
+    .alignment-heading {
+      font-family: var(--font-sans);
+      font-size: 0.74rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--crail);
+      font-weight: 600;
+      margin: 0 0 var(--space-2);
+    }
+    .alignment-block > p { margin: 0; }
+
+    .compare-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-4);
+      margin-top: var(--space-4);
+    }
+    @media (max-width: 720px) { .compare-grid { grid-template-columns: 1fr; } }
+    .compare-card h4 {
+      display: flex; align-items: center; gap: var(--space-2);
+      margin-bottom: var(--space-3);
+    }
+    .label-pill {
+      font-family: var(--font-sans);
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 2px 8px;
+      border-radius: 999px;
+    }
+    .label-pill.others { background: rgba(176,174,165,0.2); color: var(--dark); }
+    .label-pill.fellows { background: rgba(193,95,60,0.12); color: var(--crail); }
+
+    .highlight {
+      background: linear-gradient(180deg, transparent 60%, rgba(193,95,60,0.22) 60%);
+      padding: 0 2px;
+      font-weight: 600;
+    }
+
+    /* =========================================================
+       RESOURCES & DEPENDENCIES
+       ========================================================= */
+    .res-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-6);
+    }
+    @media (max-width: 900px) { .res-grid { grid-template-columns: 1fr; } }
+    .col-head {
+      font-family: var(--font-sans);
+      text-transform: uppercase;
+      font-size: 0.78rem;
+      letter-spacing: 0.14em;
+      color: var(--dark);
+      opacity: 0.6;
+      font-weight: 600;
+      margin-bottom: var(--space-3);
+    }
+    details.acc {
+      background: var(--white);
+      border: 1px solid var(--light-gray);
+      border-radius: var(--radius-md);
+      padding: var(--space-4) var(--space-5);
+      margin-bottom: var(--space-3);
+      transition: border-color .2s ease;
+    }
+    details.acc[open] { border-color: var(--crail); }
+    details.acc summary {
+      list-style: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-3);
+      font-family: var(--font-sans);
+      font-weight: 600;
+      font-size: 1rem;
+      color: var(--dark);
+    }
+    details.acc summary::-webkit-details-marker { display: none; }
+    details.acc summary::after {
+      content: "+";
+      font-family: var(--font-sans);
+      font-weight: 400;
+      font-size: 1.3rem;
+      color: var(--crail);
+      transition: transform .2s ease;
+      line-height: 1;
+    }
+    details.acc[open] summary::after { content: "−"; }
+    details.acc .acc-body {
+      margin-top: var(--space-3);
+      padding-top: var(--space-3);
+      border-top: 1px solid var(--light-gray);
+      font-size: 0.95rem;
+    }
+    details.acc .acc-body p:last-child { margin-bottom: 0; }
+    .mitigation {
+      background: rgba(216,119,87,0.06);
+      border-left: 3px solid var(--accent-orange);
+      padding: var(--space-3) var(--space-4);
+      border-radius: var(--radius-sm);
+      margin-top: var(--space-3);
+      font-size: 0.93rem;
+    }
+    .mitigation strong { color: var(--crail); }
+
+    /* =========================================================
+       METRICS
+       Lists with rationale tooltips & a Student/Anthropic toggle.
+       ========================================================= */
+    .metric-toolbar {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      flex-wrap: wrap;
+      margin-bottom: var(--space-5);
+      font-family: var(--font-sans);
+      font-size: 0.9rem;
+    }
+    .toggle-group {
+      display: inline-flex;
+      border: 1px solid var(--light-gray);
+      border-radius: 999px;
+      padding: 3px;
+      background: var(--white);
+    }
+    .toggle-btn {
+      background: none;
+      border: none;
+      padding: 6px 14px;
+      border-radius: 999px;
+      cursor: pointer;
+      font-family: var(--font-sans);
+      font-size: 0.85rem;
+      color: var(--dark);
+      opacity: 0.7;
+      transition: background .2s ease, color .2s ease, opacity .2s ease;
+    }
+    .toggle-btn.active {
+      background: var(--crail);
+      color: var(--white);
+      opacity: 1;
+    }
+
+    /* Metrics tiers stack vertically so Aspirational Goals reads
+       as a clear second tier under Primary Goals, not a sidebar. */
+    .metrics-grid {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-7);
+    }
+    .metrics-tier-heading {
+      font-family: var(--font-sans);
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin: 0 0 var(--space-3);
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+    }
+    .metrics-tier-heading .tier-bar {
+      flex: 1;
+      height: 1px;
+      background: var(--light-gray);
+    }
+    .metric-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .metric-item {
+      padding: var(--space-4) 0;
+      border-top: 1px solid var(--light-gray);
+      display: flex;
+      align-items: flex-start;
+      gap: var(--space-3);
+      position: relative;
+    }
+    .metric-item:first-child { border-top: none; }
+    .metric-num {
+      font-family: var(--font-sans);
+      font-weight: 600;
+      color: var(--crail);
+      width: 30px;
+      flex-shrink: 0;
+    }
+    .metric-content { flex: 1; }
+    .metric-title {
+      font-family: var(--font-sans);
+      font-weight: 500;
+      color: var(--dark);
+      margin-bottom: 2px;
+    }
+    .metric-example {
+      font-size: 0.9rem;
+      color: var(--dark);
+      opacity: 0.65;
+      margin-top: 4px;
+    }
+    .info-tip {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 18px; height: 18px;
+      border-radius: 50%;
+      border: 1px solid var(--cloudy);
+      color: var(--dark);
+      opacity: 0.55;
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-size: 0.72rem;
+      cursor: help;
+      margin-left: 6px;
+      vertical-align: middle;
+      flex-shrink: 0;
+    }
+    .info-tip:hover { opacity: 1; border-color: var(--crail); color: var(--crail); }
+    .info-tip .tip-bubble {
+      position: absolute;
+      bottom: calc(100% + 8px);
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--dark);
+      color: var(--light);
+      font-family: var(--font-sans);
+      font-style: normal;
+      font-size: 0.8rem;
+      line-height: 1.4;
+      padding: var(--space-3);
+      border-radius: var(--radius-sm);
+      width: 240px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .2s ease, transform .2s ease;
+      z-index: 30;
+    }
+    .info-tip:hover .tip-bubble,
+    .info-tip:focus .tip-bubble {
+      opacity: 1;
+      transform: translateX(-50%) translateY(-2px);
+    }
+    .info-tip .tip-bubble::after {
+      content: "";
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      border: 6px solid transparent;
+      border-top-color: var(--dark);
+    }
+
+    /* Tag emphasis for student/anthropic toggle */
+    .value-tag {
+      font-family: var(--font-sans);
+      font-size: 0.7rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 2px 8px;
+      border-radius: 999px;
+      margin-left: 8px;
+      display: inline-block;
+      vertical-align: middle;
+    }
+    .value-tag.student { background: rgba(120,140,93,0.14); color: var(--accent-green); }
+    .value-tag.anthropic { background: rgba(106,155,204,0.14); color: var(--accent-blue); }
+    .metric-item[data-emphasis="student"] .value-tag.anthropic,
+    .metric-item[data-emphasis="anthropic"] .value-tag.student,
+    .metric-item[data-emphasis="both"] .value-tag.both-hidden { display: none; }
+
+    .metric-item.dimmed {
+      opacity: 0.42;
+      transition: opacity .25s ease;
+    }
+
+    /* Aspirational tier: full-width card sitting below Primary Goals. */
+    .aspirational {
+      background: var(--white);
+      border: 1px dashed var(--crail);
+      border-radius: var(--radius-md);
+      padding: var(--space-5) var(--space-6);
+    }
+    .aspirational .col-head { color: var(--crail); opacity: 1; }
+
+    /* =========================================================
+       TIMELINE — Experience section
+       ========================================================= */
+    .timeline {
+      position: relative;
+      margin-left: var(--space-4);
+      padding-left: var(--space-6);
+      border-left: 2px solid var(--light-gray);
+    }
+    .timeline-item {
+      position: relative;
+      padding-bottom: var(--space-6);
+    }
+    .timeline-item:last-child { padding-bottom: 0; }
+    .timeline-item::before {
+      content: "";
+      position: absolute;
+      left: calc(-1 * var(--space-6) - 6px);
+      top: 6px;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: var(--crail);
+      border: 3px solid var(--light);
+      box-shadow: 0 0 0 1px var(--crail);
+    }
+    .timeline-meta {
+      font-family: var(--font-sans);
+      font-size: 0.8rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--crail);
+      margin-bottom: var(--space-1);
+    }
+    .timeline-title {
+      font-family: var(--font-sans);
+      font-weight: 600;
+      font-size: 1.1rem;
+      margin-bottom: var(--space-2);
+    }
+    .timeline p {
+      margin: 0;
+      color: var(--dark);
+      opacity: 0.85;
+      font-size: 0.98rem;
+    }
+    .closing-line {
+      margin-top: var(--space-7);
+      padding: var(--space-5);
+      background: var(--white);
+      border-left: 4px solid var(--crail);
+      border-radius: var(--radius-sm);
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-size: 1.1rem;
+      line-height: 1.5;
+    }
+
+    /* =========================================================
+       FOOTER
+       ========================================================= */
+    footer {
+      padding: var(--space-7) var(--space-5);
+      text-align: center;
+      font-family: var(--font-sans);
+      font-size: 0.85rem;
+      color: var(--dark);
+      opacity: 0.55;
+      background: var(--pampas);
+    }
+    footer a { color: inherit; border-bottom-color: var(--cloudy); }
+  </style>
+</head>
+<body>
+
+  <!-- =========================================================
+       NAV
+       ========================================================= -->
+  <nav class="nav" aria-label="Primary">
+    <div class="nav-inner">
+      <a href="#top" class="nav-brand">
+        <span class="nav-brand-mark" aria-hidden="true"></span>
+        Claude Campus Fellows
+      </a>
+      <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="navLinks">Menu</button>
+      <div class="nav-links" id="navLinks">
+        <a href="#about">About</a>
+        <a href="#structure">Structure</a>
+        <a href="#positioning">Positioning</a>
+        <a href="#resources">Resources</a>
+        <a href="#metrics">Metrics</a>
+        <a href="#experience">Experience</a>
+      </div>
+    </div>
+  </nav>
+
+  <main id="top">
+
+    <!-- =========================================================
+         HERO
+         ========================================================= -->
+    <section class="hero">
+      <div class="hero-inner">
+        <!-- 1) Title at the very top, gently levitating -->
+        <div class="hero-title">
+          <span class="proposal-pill">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+              <path d="M14 2v6h6"/>
+              <path d="M9 13h6M9 17h4"/>
+            </svg>
+            Program Proposal
+          </span>
+          <h1>Claude Campus Fellows</h1>
+        </div>
+
+        <!-- 2) Mead quote sits directly above the paragraph that references it -->
+        <blockquote class="hero-quote">
+          “Never doubt that a small group of thoughtful, committed citizens can change the world. Indeed it’s the only thing that ever has.”
+          <span class="hero-quote-attr">— Margaret Mead</span>
+        </blockquote>
+
+        <div class="hero-body">
+          <!-- Author's voice — preserved verbatim per the source MD -->
+          <p>This quote, printed on the walls of the African Leadership University, changed my life in 2016. It made me believe in the power of collective thought and action, no matter how small. It sits at the center of my belief in startups like Anthropic as the most potent vehicles for systems-level change, with passionate people as its vectors. My approach to designing this program is rooted in this belief.</p>
+          <!-- Signature: makes it explicit who authored the paragraph above -->
+          <p class="hero-signature">— Arinze Obiezue</p>
+        </div>
+
+        <!-- Dual choice: explore the live site vs read the full PDF plan -->
+        <div class="cta-dual" role="group" aria-label="How to view the plan">
+          <a href="#about" class="cta-choice cta-choice-primary">
+            <span class="cta-choice-icon" aria-hidden="true">
+              <!-- circle with arrow: explore -->
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9 12h6M13 9l3 3-3 3"/></svg>
+            </span>
+            <span class="cta-choice-body">
+              <span class="cta-choice-label">Explore the site</span>
+              <span class="cta-choice-sub">Interactive walkthrough</span>
+            </span>
+          </a>
+          <span class="cta-choice-divider" aria-hidden="true">or</span>
+          <a href="Claude-Campus-Fellows-Plan.pdf" class="cta-choice cta-choice-secondary" download>
+            <span class="cta-choice-icon" aria-hidden="true">
+              <!-- document with arrow down: download PDF -->
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="M12 12v6M9 15l3 3 3-3"/></svg>
+            </span>
+            <span class="cta-choice-body">
+              <span class="cta-choice-label">Read the PDF</span>
+              <span class="cta-choice-sub">Full written plan</span>
+            </span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         ABOUT
+         ========================================================= -->
+    <section class="section" id="about">
+      <div class="container">
+        <div class="section-head">
+          <div class="eyebrow">01 — About</div>
+          <h2>About Claude Campus Fellows</h2>
+          <p class="lead">The Claude Campus Fellows program is a community of graduate students, primarily from the humanities, who convene and guide campus-wide conversations on AI and society for both graduate and undergraduate students.</p>
+        </div>
+
+        <!-- Claude@Campus: umbrella over the two complementary roles -->
+        <div class="claude-at-campus">
+          <span class="claude-at-campus-label">Claude@Campus</span>
+          <div class="role-cards">
+            <div class="card role-card">
+              <span class="role-tag builder">Builders</span>
+              <h3>Campus Ambassadors</h3>
+              <ul>
+                <li>Campus Ambassadors lead the Claude Builder Clubs on their campuses.</li>
+                <li>They act as <em style="color: var(--crail);">technical product evangelists</em> for Claude across student communities.</li>
+              </ul>
+            </div>
+            <div class="card role-card">
+              <span class="role-tag thinker">Thinkers</span>
+              <h3>Campus Fellows</h3>
+              <ul>
+                <li>Campus Fellows lead the Claude Thinker Salons on their campuses.</li>
+                <li>They serve as <em style="color: var(--crail);">non-technical thought curators</em> for conversations on AI and society.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="objectives">
+          <h4>Program objectives</h4>
+          <ol>
+            <li>Give non-technical students a voice in steering AI development and its impact on society.</li>
+            <li>Help Anthropic’s teams understand how students are using Claude for personal and professional use cases.</li>
+            <li>Increase Claude usage among students from the humanities, arts, and culture disciplines.</li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         STRUCTURE
+         ========================================================= -->
+    <section class="section alt-bg" id="structure">
+      <div class="container">
+        <div class="section-head">
+          <div class="eyebrow">02 — Structure</div>
+          <h2>Program &amp; Thinker Salon Structure</h2>
+          <p class="lead">Each design choice is deliberate. Tap any card to see the rationale behind it.</p>
+        </div>
+
+        <div class="structure-grid">
+          <article class="struct-card">
+            <div class="struct-num">01</div>
+            <h3 class="struct-title">1 Campus Fellow per campus</h3>
+            <button class="rationale-toggle" aria-expanded="false">
+              <span class="ico">i</span> View rationale
+            </button>
+            <div class="rationale">A single fellow per campus solves the bystander effect that emerges when multiple fellows share responsibility but engage unequally.</div>
+          </article>
+
+          <article class="struct-card">
+            <div class="struct-num">02</div>
+            <h3 class="struct-title">7–10 students per salon</h3>
+            <button class="rationale-toggle" aria-expanded="false">
+              <span class="ico">i</span> View rationale
+            </button>
+            <div class="rationale">A group this size ensures depth of engagement for each participant rather than letting voices fade into the background.</div>
+          </article>
+
+          <article class="struct-card">
+            <div class="struct-num">03</div>
+            <h3 class="struct-title">3–4 disciplines per salon</h3>
+            <button class="rationale-toggle" aria-expanded="false">
+              <span class="ico">i</span> View rationale
+            </button>
+            <div class="rationale">Mixing disciplines captures a wider surface area of student insights and prevents salons from collapsing into a single intellectual register.</div>
+          </article>
+
+          <article class="struct-card">
+            <div class="struct-num">04</div>
+            <h3 class="struct-title">1:1 grad : undergrad ratio</h3>
+            <button class="rationale-toggle" aria-expanded="false">
+              <span class="ico">i</span> View rationale
+            </button>
+            <div class="rationale">An even split between graduate and undergraduate students gives equal voice to participants across educational levels.</div>
+          </article>
+
+          <article class="struct-card">
+            <div class="struct-num">05</div>
+            <h3 class="struct-title">10-week program</h3>
+            <button class="rationale-toggle" aria-expanded="false">
+              <span class="ico">i</span> View rationale
+            </button>
+            <div class="rationale">A 10-week length lines up with the timeline of the sister Campus Ambassador program, so both efforts move in lockstep on each campus.</div>
+          </article>
+
+          <article class="struct-card">
+            <div class="struct-num">06</div>
+            <h3 class="struct-title">Pilot: 5–10 priority schools</h3>
+            <p class="struct-sub">The pilot will focus on schools with an existing Claude for Education presence or deep involvement in AI ethics, such as Oxford’s Schwarzman Center for the Humanities and its Institute for AI Ethics.</p>
+            <button class="rationale-toggle" aria-expanded="false">
+              <span class="ico">i</span> View rationale
+            </button>
+            <div class="rationale">Starting small gives the program team a learning window to refine the model before scaling to more campuses.</div>
+          </article>
+
+          <article class="struct-card">
+            <div class="struct-num">07</div>
+            <h3 class="struct-title">Faculty sponsor required</h3>
+            <button class="rationale-toggle" aria-expanded="false">
+              <span class="ico">i</span> View rationale
+            </button>
+            <div class="rationale">A faculty sponsor provides institutional accountability and keeps salon topics and published artifacts aligned with school priorities and policies.</div>
+          </article>
+        </div>
+
+        <div class="thesis">
+          <p class="thesis-quote">“For Ambassadors, the work is distribution. For Fellows, the work is curation.”</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         TARGET DISCIPLINES
+         ========================================================= -->
+    <section class="section" id="disciplines">
+      <div class="container">
+        <div class="section-head">
+          <div class="eyebrow">03 — Target Disciplines</div>
+          <h2>Target Disciplines</h2>
+          <p class="lead">Where Campus Fellows recruit and where conversations are seeded.</p>
+        </div>
+        <div class="chips">
+          <span class="chip">Philosophy</span>
+          <span class="chip">English &amp; Literature</span>
+          <span class="chip">History</span>
+          <span class="chip">Education</span>
+          <span class="chip">Anthropology</span>
+          <span class="chip">Design / Arts / Media / Entertainment</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         POSITIONING
+         ========================================================= -->
+    <section class="section alt-bg" id="positioning">
+      <div class="container">
+        <div class="section-head">
+          <div class="eyebrow">04 — Positioning</div>
+          <h2>Program Positioning</h2>
+          <p class="lead">How Claude Campus Fellows fits within Anthropic’s DNA — and how it diverges from every other AI campus program.</p>
+        </div>
+
+        <div class="tabs" role="tablist">
+          <button class="tab active" role="tab" aria-selected="true" data-target="pos-1">Alignment with Anthropic’s DNA</button>
+          <button class="tab" role="tab" aria-selected="false" data-target="pos-2">Program Differentiation</button>
+          <button class="tab" role="tab" aria-selected="false" data-target="pos-3">Core Insight</button>
+        </div>
+
+        <div class="tab-panel active" id="pos-1" role="tabpanel">
+          <div class="card" style="padding: var(--space-6);">
+            <h3>Built and run by both builders and thinkers</h3>
+            <p>Anthropic builds frontier AI systems while stewarding thoughtful conversations on AI and human flourishing — and the Campus program is designed to mirror that duality.</p>
+
+            <div class="alignment-block">
+              <h4 class="alignment-heading">Founder alignment</h4>
+              <p>The company is co-led by builder and thinker archetypes — Dario’s engineering background and Daniela’s humanities background — so its Campus Program needs to mirror that same duality on every campus.</p>
+            </div>
+
+            <div class="alignment-block">
+              <h4 class="alignment-heading">Org + mission alignment</h4>
+              <p>As one of the few AI labs structured as a Public Benefit Corporation rather than a typical C-Corp, Anthropic has a legal mandate to balance frontier development with thoughtful deployment. Campus Ambassadors carry the former; Campus Fellows carry the latter.</p>
+            </div>
+
+            <div class="compare-grid" style="margin-top: var(--space-6);">
+              <div class="compare-card card" style="background: var(--pampas);">
+                <h4><span class="role-tag builder">Builders</span> Campus Ambassadors</h4>
+                <p style="margin:0;">Campus Ambassadors carry the frontier-development side of Anthropic’s mandate, driving Claude’s adoption among student builders.</p>
+              </div>
+              <div class="compare-card card" style="background: var(--pampas);">
+                <h4><span class="role-tag thinker">Thinkers</span> Campus Fellows</h4>
+                <p style="margin:0;">Campus Fellows carry the thoughtful-deployment side, hosting discourse on AI and society and modeling responsible use.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="tab-panel" id="pos-2" role="tabpanel">
+          <div class="card" style="padding: var(--space-6);">
+            <h3>How Campus Fellows is different</h3>
+            <p>Most AI campus programs optimize for usage, growth, and product demos. Claude Campus Fellows focuses on critical thinking, salons, and ongoing student-led artifacts rather than one-off materials.</p>
+            <div class="compare-grid">
+              <div class="compare-card card" style="background: var(--pampas);">
+                <h4><span class="label-pill others">Others</span></h4>
+                <p style="margin:0;">Perplexity’s Campus Partner and Lovable’s Campus Leaders programs are usage- and growth-centric. OpenAI’s “100 Chats for College Students” produced a single, centrally authored book, and its ChatGPT Lab initiatives are centrally organized rather than student-led.</p>
+              </div>
+              <div class="compare-card card" style="background: var(--white); border-color: var(--crail);">
+                <h4><span class="label-pill fellows">Claude Campus Fellows</span></h4>
+                <p style="margin:0;">A stream of student-led artifacts from ongoing salons across global campuses — designed for depth, plurality, and societal reflection over short-term growth metrics.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="tab-panel" id="pos-3" role="tabpanel">
+          <div class="card" style="padding: var(--space-6);">
+            <h3>Core Insight</h3>
+            <ul style="padding-left: 1.2rem;">
+              <li>Most AI campus programs focus primarily on “builders,” leaving humanities and non-technical students on the periphery.</li>
+              <li>Historically, big questions about technology and society are answered when sciences and arts work together.</li>
+              <li>Focusing only on technical communities effectively cuts the total addressable student market in half.</li>
+            </ul>
+            <p style="font-size: 1.2rem; line-height:1.5; margin-top: var(--space-5);">
+              <span class="highlight">Claude Campus Fellows unlocks the other half.</span>
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         RESOURCES & DEPENDENCIES
+         ========================================================= -->
+    <section class="section" id="resources">
+      <div class="container">
+        <div class="section-head">
+          <div class="eyebrow">05 — Resources &amp; Dependencies</div>
+          <h2>Resources &amp; Dependencies</h2>
+          <p class="lead">What the program needs to run — and the risks it must actively manage.</p>
+        </div>
+
+        <div class="res-grid">
+          <!-- Resources column -->
+          <div>
+            <div class="col-head">Resources</div>
+
+            <details class="acc">
+              <summary>Conversation Guides</summary>
+              <div class="acc-body">Instructionals with prompts, facilitation tips, and ideas on using Claude to synthesize salon insights.</div>
+            </details>
+
+            <details class="acc">
+              <summary>Employee Time</summary>
+              <div class="acc-body">~1 hour per month aggregated from education, beneficial deployments, research, and policy teams for Campus Fellow Seminars, where FTEs share “big questions” and selected Fellows share campus insights.</div>
+            </details>
+
+            <details class="acc">
+              <summary>Fellow Compensation</summary>
+              <div class="acc-body">Equal to Campus Ambassador compensation, reinforcing equal standing as co-leaders of the Claude community on campus.</div>
+            </details>
+
+            <details class="acc">
+              <summary>Salon Reimbursement</summary>
+              <div class="acc-body">Reimbursement for salon-related expenses up to $500 per term, mirroring the Builder Club budget.</div>
+            </details>
+
+            <details class="acc">
+              <summary>Content Distribution Channels</summary>
+              <div class="acc-body">
+                <p>An owned channel (e.g. YouTube or Substack) for showcasing high-quality artifacts and insights from student salons.</p>
+                <p><em>Note: any artifacts amplified on Anthropic channels will go through a light editorial and safety review aligned with Anthropic content standards.</em></p>
+              </div>
+            </details>
+
+            <details class="acc">
+              <summary>Recruitment Pipelines</summary>
+              <div class="acc-body">A signal into research-adjacent roles that value humanities and social-science expertise — Claude for Education, Beneficial Deployments, Policy/Society teams, and for hybrid profiles, research engineer/scientist tracks.</div>
+            </details>
+          </div>
+
+          <!-- Dependencies column -->
+          <div>
+            <div class="col-head">Dependencies &amp; Mitigations</div>
+
+            <details class="acc">
+              <summary>Reputation Risk</summary>
+              <div class="acc-body">
+                <p><strong>Risk:</strong> content produced by Fellows could be misinterpreted as Anthropic-approved.</p>
+                <div class="mitigation">
+                  <strong>Mitigation:</strong> mandatory disclaimer — “This content, curated by a Claude Campus Fellow, represents the personal views of the students in the salon, not Anthropic’s views or those of its employees.” Violation results in removal from the program.
+                </div>
+              </div>
+            </details>
+
+            <details class="acc">
+              <summary>Program &amp; Title Conflation</summary>
+              <div class="acc-body">
+                <p><strong>Risk:</strong> confusion between Campus Fellows and Anthropic FTE fellowship programs — similar to the Campus Ambassador vs. Community Ambassador dynamic.</p>
+                <div class="mitigation">
+                  <strong>Mitigation:</strong> clear guidelines for how Fellows list their role on LinkedIn and other platforms; monitored by the Campus program team; violations result in removal.
+                </div>
+              </div>
+            </details>
+
+            <details class="acc">
+              <summary>Research Depth Confusion</summary>
+              <div class="acc-body">
+                <p><strong>Risk:</strong> salon artifacts being mistaken for fully researched, market-shaping insights due to the Claude/Anthropic halo.</p>
+                <div class="mitigation">
+                  <strong>Mitigation:</strong> required disclaimer that artifacts represent insights from guided conversations, not in-depth empirical research.
+                </div>
+              </div>
+            </details>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         METRICS
+         ========================================================= -->
+    <section class="section alt-bg" id="metrics">
+      <div class="container">
+        <div class="section-head">
+          <div class="eyebrow">06 — Success Metrics</div>
+          <h2>Success Metrics</h2>
+          <p class="lead">How we’ll know the program is working — and which signals matter most to students versus Anthropic.</p>
+        </div>
+
+        <div class="metric-toolbar">
+          <span style="opacity:0.7;">Emphasize:</span>
+          <div class="toggle-group" role="group" aria-label="Emphasis toggle">
+            <button class="toggle-btn active" data-emphasis="both">Both</button>
+            <button class="toggle-btn" data-emphasis="student">Student Value</button>
+            <button class="toggle-btn" data-emphasis="anthropic">Anthropic Value</button>
+          </div>
+        </div>
+
+        <div class="metrics-grid">
+          <div>
+            <h3 class="metrics-tier-heading">Primary Goals <span class="tier-bar"></span></h3>
+            <ul class="metric-list" id="primaryMetrics">
+              <li class="metric-item" data-emphasis="anthropic">
+                <span class="metric-num">01</span>
+                <div class="metric-content">
+                  <div class="metric-title">
+                    Salons organized per campus
+                    <span class="info-tip" tabindex="0" aria-label="Rationale">
+                      i<span class="tip-bubble">A steady cadence of salons ensures Claude and Anthropic maintain an active, visible presence on each campus.</span>
+                    </span>
+                    <span class="value-tag anthropic">Anthropic value</span>
+                  </div>
+                </div>
+              </li>
+              <li class="metric-item" data-emphasis="student">
+                <span class="metric-num">02</span>
+                <div class="metric-content">
+                  <div class="metric-title">
+                    Interdisciplinary diversity per salon
+                    <span class="info-tip" tabindex="0" aria-label="Rationale">
+                      i<span class="tip-bubble">This signal measures how far Claude is reaching into non-technical disciplines beyond the usual builder audience.</span>
+                    </span>
+                    <span class="value-tag student">Student value</span>
+                  </div>
+                </div>
+              </li>
+              <li class="metric-item" data-emphasis="anthropic">
+                <span class="metric-num">03</span>
+                <div class="metric-content">
+                  <div class="metric-title">
+                    Claude artifacts created per salon
+                    <span class="info-tip" tabindex="0" aria-label="Rationale">
+                      i<span class="tip-bubble">Required artifacts confirm that students are actively using Claude to synthesize discussions and reflect on what came up.</span>
+                    </span>
+                    <span class="value-tag anthropic">Anthropic value</span>
+                  </div>
+                </div>
+              </li>
+              <li class="metric-item" data-emphasis="student">
+                <span class="metric-num">04</span>
+                <div class="metric-content">
+                  <div class="metric-title">
+                    Reach of artifacts &amp; salon content
+                    <span class="info-tip" tabindex="0" aria-label="Rationale">
+                      i<span class="tip-bubble">Tracked through podcast plays, essay reads, and zine downloads, this expands how society thinks about use cases for Claude artifacts and creative tools like Claude Design.</span>
+                    </span>
+                    <span class="value-tag student">Student value</span>
+                  </div>
+                </div>
+              </li>
+              <li class="metric-item" data-emphasis="anthropic">
+                <span class="metric-num">05</span>
+                <div class="metric-content">
+                  <div class="metric-title">
+                    Product / program / policy decisions influenced by student insights
+                    <span class="info-tip" tabindex="0" aria-label="Rationale">
+                      i<span class="tip-bubble">When salon insights show up in real decisions, students gain measurable agency in how Anthropic builds and ships.</span>
+                    </span>
+                    <span class="value-tag anthropic">Anthropic value</span>
+                  </div>
+                  <div class="metric-example">For example, Anthropic employees may quote student insights in internal and external presentations, and Claude for Education resources may explicitly build on salon artifacts.</div>
+                </div>
+              </li>
+            </ul>
+          </div>
+
+          <aside class="aspirational">
+            <h3 class="metrics-tier-heading" style="color: var(--crail);">Aspirational Goals <span class="tier-bar" style="background: rgba(193,95,60,0.25);"></span></h3>
+            <ul class="metric-list" id="aspirationalMetrics">
+              <li class="metric-item" data-emphasis="anthropic" style="border-top:none;">
+                <span class="metric-num">06</span>
+                <div class="metric-content">
+                  <div class="metric-title">
+                    FTE hires from the Fellowship
+                    <span class="info-tip" tabindex="0" aria-label="Rationale">
+                      i<span class="tip-bubble">Every Fellow who later joins as an FTE signals the high quality bar of the program and the long-term talent value it produces.</span>
+                    </span>
+                    <span class="value-tag anthropic">Anthropic value</span>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         EXPERIENCE — Timeline
+         ========================================================= -->
+    <section class="section" id="experience">
+      <div class="container">
+        <div class="section-head">
+          <div class="eyebrow">07 — Experience</div>
+          <h2>Why I Care About Thinking Salons</h2>
+          <p class="lead">A decade of building small, high-trust thinking communities across very different contexts.</p>
+        </div>
+
+        <div class="timeline">
+          <div class="timeline-item">
+            <div class="timeline-meta">Mauritius · Weekly</div>
+            <div class="timeline-title">Think &amp; Chill</div>
+            <p>As an undergrad in Mauritius, I founded and ran this weekly thinking salon where friends and I met every Sunday at 8pm to discuss pre-readings across a range of topics.</p>
+          </div>
+
+          <div class="timeline-item">
+            <div class="timeline-meta">Nairobi · Biweekly</div>
+            <div class="timeline-title">Sunday High Table (SHiT)</div>
+            <p>After moving to Nairobi to launch my Gen Z culture magazine, I co-founded this biweekly intellectual community where my creative and non-creative friends gathered to discuss philosophical topics.</p>
+          </div>
+
+          <div class="timeline-item">
+            <div class="timeline-meta">Stanford · Ongoing</div>
+            <div class="timeline-title">Stanford Think Club</div>
+            <p>At Stanford, I’m part of a think club with PhD students, including those from the medical school, where we read essays by writers from James Baldwin to Paul Graham to think more broadly about society and our place in it.</p>
+          </div>
+
+          <div class="timeline-item">
+            <div class="timeline-meta">Global · Fellowship</div>
+            <div class="timeline-title">Thinking About Thinking Fellow</div>
+            <p>I’m also a Thinking About Thinking Fellow, part of a global community of academics, scientists, researchers, designers, and philosophers working on open problems at the intersection of intelligence, society, and governance.</p>
+          </div>
+        </div>
+
+        <p class="closing-line">These experiences give me a tested playbook for recruiting, facilitating, and sustaining small, high‑trust thinking salons across very different contexts and markets.</p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <div>Claude Campus Fellows · A program design by Arinze Obiezue · <span id="year"></span></div>
+  </footer>
+
+  <!-- =========================================================
+       SCRIPTS
+       Smooth scroll, accordion toggles, tabs, and metric emphasis.
+       ========================================================= -->
+  <script>
+    // Footer year
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Mobile nav toggle
+    const navToggle = document.getElementById('navToggle');
+    const navLinks = document.getElementById('navLinks');
+    navToggle.addEventListener('click', () => {
+      const open = navLinks.classList.toggle('open');
+      navToggle.setAttribute('aria-expanded', String(open));
+    });
+    // Close mobile nav after clicking a link
+    navLinks.querySelectorAll('a').forEach(a => {
+      a.addEventListener('click', () => {
+        navLinks.classList.remove('open');
+        navToggle.setAttribute('aria-expanded', 'false');
+      });
+    });
+
+    // Structure rationale expand/collapse
+    document.querySelectorAll('.struct-card').forEach(card => {
+      const btn = card.querySelector('.rationale-toggle');
+      if (!btn) return;
+      btn.addEventListener('click', () => {
+        const isOpen = card.classList.toggle('open');
+        btn.setAttribute('aria-expanded', String(isOpen));
+        btn.innerHTML = isOpen
+          ? '<span class="ico">i</span> Hide rationale'
+          : '<span class="ico">i</span> View rationale';
+      });
+    });
+
+    // Tabs (Positioning)
+    const tabs = document.querySelectorAll('.tab');
+    const panels = document.querySelectorAll('.tab-panel');
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        const target = tab.dataset.target;
+        tabs.forEach(t => {
+          t.classList.remove('active');
+          t.setAttribute('aria-selected', 'false');
+        });
+        panels.forEach(p => p.classList.remove('active'));
+        tab.classList.add('active');
+        tab.setAttribute('aria-selected', 'true');
+        document.getElementById(target).classList.add('active');
+      });
+    });
+
+    // Metrics: Student / Anthropic / Both emphasis toggle
+    const toggleBtns = document.querySelectorAll('.toggle-btn');
+    const metricItems = document.querySelectorAll('.metric-item');
+    toggleBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const mode = btn.dataset.emphasis;
+        toggleBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+
+        metricItems.forEach(item => {
+          const itemEmphasis = item.dataset.emphasis;
+          if (mode === 'both' || mode === itemEmphasis) {
+            item.classList.remove('dimmed');
+          } else {
+            item.classList.add('dimmed');
+          }
+        });
+      });
+    });
+  </script>
+</body>
+</html>

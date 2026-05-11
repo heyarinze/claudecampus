@@ -1,0 +1,10 @@
+# Local + system
+.DS_Store
+.claude/
+
+# Vercel link folder — contains project IDs, not meant for source control
+.vercel/
+
+# Python / build cache
+__pycache__/
+*.pyc

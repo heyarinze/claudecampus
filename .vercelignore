@@ -1,0 +1,5 @@
+# Source + build artifacts that don't need to ship to Vercel.
+# The site is just index.html + the linked PDF.
+Claude Campus Program Design.md
+build_pdf.py
+.claude/
